@@ -31,25 +31,6 @@ class Collection
   end
 end
 
-class Item
-  attr_accessor :quantity, :name, :price
-
-  def initialize args
-    args.each{|k, v| instance_variable_set("@#{k}", v) unless v.nil?}
-  end
-
-  def tax_amount
-    ItemTax.new(self).calculate
-  end
-
-  def to_s
-    "#{quantity}, #{name}, #{price.to_d.to_s("F")}"
-  end
-
-  def total_price
-    price*quantity
-  end
-end
 
 class ItemTax
   attr_accessor :item
