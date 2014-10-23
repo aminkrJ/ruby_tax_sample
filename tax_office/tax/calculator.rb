@@ -1,22 +1,24 @@
 module TaxOffice
   module Tax
     class Calculator
-      attr_accessor :tax_collection, :item, :method
+      attr_accessor :rules, :receipt, :method, :item
+      attr_reader :total
 
-      def initialize item, method = nil
-        @item       = item
+      def initialize receipt = [], method = nil
+        @receipt    = receipt
         @method     = method
-        @tax_collection = []
-      end
-
-      def add_tax_rule tax
-        tax_collection << tax
+        @rules      = []
       end
 
       def calculate(method = nil)
         return "specify method :inclusive | :exclusive" unless method
-        return 0 if tax_collection.empty?
-        send method.to_s
+        return 0 if receipt.empty?
+        receipt.each do |item| {
+          c = Calculator.new
+          c.item = item
+          c.calculate method
+        }
+        send method.to_sym
       end
 
       private
@@ -29,7 +31,7 @@ module TaxOffice
 
       def before
         item.total_price if method == :exclusive
-        after/(tax_collection.map(&:percentage).inject{|sum, p| p + sum} + 1)
+        after/(rules.map(&:percentage).inject{|sum, p| p + sum} + 1)
       end
 
       def after
