@@ -1,4 +1,4 @@
-require_relative "../lib/taxation_office"
+require_relative '../lib/taxation_office'
 
 receipt = TaxationOffice::Receipt.new
 $stdin.each_line do |l|
