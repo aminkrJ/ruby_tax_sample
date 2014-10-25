@@ -1,6 +1,6 @@
-module TaxOffice
+module TaxationOffice
   class Item
-    attr_accessor :quantity, :name, :price
+    attr_accessor :quantity, :name, :price, :purchase_tax
 
     def initialize quantity, name, price
       @quantity = quantity
