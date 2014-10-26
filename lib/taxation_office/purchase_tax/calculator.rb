@@ -8,8 +8,12 @@ module TaxationOffice
         @rules   = []
       end
 
-      def calculate method = :inclusive
-        @method = method
+      def method
+        @method ||= :inclusive
+      end
+
+      def calculate
+        return 0 if receipt.items.empty?
         receipt.items.each do |item|
           @item = item
           item.purchase_tax = calculate_for_each
