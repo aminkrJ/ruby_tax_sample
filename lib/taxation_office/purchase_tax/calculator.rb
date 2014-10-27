@@ -20,6 +20,11 @@ module TaxationOffice
         end
       end
 
+      def total_tax_percentage
+        return 0 if rules.empty?
+        rules.map(&:percentage).inject(:+).to_d
+      end
+
       private
       def calculate_for_each
         send method
@@ -29,16 +34,16 @@ module TaxationOffice
       end
 
       def inclusive
-        after - before
+        (after - before).round(2).round_up_05
       end
 
       def before
         @item.total_price if method == :exclusive
-        after/(rules.map(&:percentage).inject(:+) + 1)
+        after/(total_tax_percentage + 1)
       end
 
       def after
-        @item.total_price if method == :inclusive
+        @item.total_price.to_d if method == :inclusive
       end
     end
   end
