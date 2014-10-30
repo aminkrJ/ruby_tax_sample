@@ -41,8 +41,7 @@ describe TaxationOffice::PurchaseTax::Calculator do
       it "#calculate" do
         @calculator.receipt.items.push item_1
         @calculator.rules.push rule_1
-
-        allow(item_1).to receive(:purchase_tax=).with(1.09.to_d.round_up_05)
+        allow(item_1).to receive(:purchase_tax=).with be_within(0.001).of(1.09)
         @calculator.calculate
       end
 

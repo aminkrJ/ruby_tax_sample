@@ -34,7 +34,7 @@ module TaxationOffice
       end
 
       def inclusive
-        (after - before).round(2).round_up_05
+        after - before
       end
 
       def before
